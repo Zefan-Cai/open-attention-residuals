@@ -8,7 +8,7 @@ An open-source implementation of [Attention Residuals](https://arxiv.org/abs/260
 
 ## Key Results
 
-Training a ~100M parameter model from scratch on FineWeb-Edu (20k steps):
+### 100M Model (d=512, L=12, 20k steps)
 
 | Model | Train Loss | WikiText-2 PPL | LAMBADA Acc | HellaSwag Acc |
 |-------|-----------|----------------|-------------|---------------|
@@ -16,7 +16,29 @@ Training a ~100M parameter model from scratch on FineWeb-Edu (20k steps):
 | **Block AttnRes (4 blocks)** | **3.489** | **70.82** | 0.084 | **0.340** |
 | Full AttnRes (per-sublayer) | 3.502 | 72.70 | **0.102** | 0.305 |
 
+<p align="center">
+  <img src="figures/training_loss.png" width="700">
+</p>
+
 **Block Attention Residuals reduce perplexity by 7.7%** with only 0.03% additional parameters.
+
+## Results at 0.6B Scale
+
+Training a 0.6B model (d=1024, L=28, same as Qwen3-0.6B) from scratch on FineWeb-Edu for 20k steps:
+
+<p align="center">
+  <img src="figures/training_loss_0.6b.png" width="700">
+</p>
+
+| Model (0.6B) | Train Loss | WikiText-2 PPL | LAMBADA Acc | HellaSwag Acc |
+|-------|-----------|----------------|-------------|---------------|
+| Baseline (Standard Residual) | 3.303 | 60.21 | 0.082 | 0.325 |
+| **Block AttnRes (8 blocks)** | **3.245** | **53.87** | **0.110** | **0.335** |
+| Full AttnRes (per-sublayer) | 3.379 | 52.36 | 0.112 | 0.335 |
+
+Block AttnRes reduces WikiText-2 PPL by **10.5%** at 0.6B scale. Full AttnRes has lower PPL but higher training loss — see [analysis](#why-block-beats-full) below.
+
+For reference, the pretrained Qwen3-0.6B (15T tokens) achieves PPL 20.97, LAMBADA 0.364, HellaSwag 0.410.
 
 ## How It Works
 
