@@ -367,6 +367,9 @@ class Qwen3AttnResModel(Qwen3PreTrainedModel):
 
         # Block AttnRes state: list of completed block tensors + current partial
         # The token embedding acts as the first "block" (block 0).
+        # NOTE: `blocks` grows as layers return updated lists at block boundaries.
+        # Each layer's forward returns (new_blocks, new_partial_block), and the
+        # loop below reassigns both variables, so blocks accumulates correctly.
         blocks: list[torch.Tensor] = [inputs_embeds]
         partial_block: torch.Tensor = inputs_embeds
 
