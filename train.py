@@ -74,7 +74,7 @@ def cosine_with_warmup(step, warmup, total, lr_min_ratio):
 def token_stream(dataset_name, config_name, tokenizer, seq_len, rank, world_size, seed):
     from datasets import load_dataset
     ds = load_dataset(dataset_name, name=config_name, split="train",
-                      streaming=True, trust_remote_code=True)
+                      streaming=True)
     ds = ds.shuffle(seed=seed + rank, buffer_size=10_000)
     ds = ds.skip(rank)
     buf = []

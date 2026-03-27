@@ -41,7 +41,7 @@ def compute_softmax_weights(blocks, partial_block, proj, norm, recency_bias):
 
 def extract_attnres_weights(model, input_ids):
     """Run forward pass and capture softmax weights from every sublayer."""
-    import modeling_qwen3_attnres as attnres_mod
+    import modeling_attnres as attnres_mod
     captured = {"attn": {}, "mlp": {}}
 
     original_forwards = {}
